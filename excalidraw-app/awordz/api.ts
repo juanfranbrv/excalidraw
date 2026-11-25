@@ -32,15 +32,38 @@ const request = async <T>(
   return response.json();
 };
 
-export const getMe = () => request<{ name: string }>("/me");
+export const getMe = () => request<{ name: string; email: string }>("/me");
 
-export const login = (password: string, name: string) =>
-  request<{ name: string }>("/login", {
+// Cuentas (Better Auth). Si falla, el error lleva el mensaje del servidor.
+const authPost = async (path: string, body: object) => {
+  const response = await fetch(`/api/auth${path}`, {
     method: "POST",
-    body: JSON.stringify({ password, name }),
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
+  const json = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(
+      json?.message || `HTTP ${response.status}`,
+    ) as Error & {
+      status?: number;
+      code?: string;
+    };
+    error.status = response.status;
+    error.code = json?.code;
+    throw error;
+  }
+  return json;
+};
 
-export const logout = () => request("/logout", { method: "POST" });
+export const signIn = (email: string, password: string) =>
+  authPost("/sign-in/email", { email, password, rememberMe: true });
+
+export const signUp = (name: string, email: string, password: string) =>
+  authPost("/sign-up/email", { name, email, password });
+
+export const signOut = () => authPost("/sign-out", {});
 
 export const listDrawings = () => request<Drawing[]>("/drawings");
 

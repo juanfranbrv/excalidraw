@@ -16,7 +16,7 @@ if [ "$TARGET" = "all" ] || [ "$TARGET" = "web" ]; then
 fi
 
 if [ "$TARGET" = "all" ] || [ "$TARGET" = "server" ]; then
-  tar -C server -czf - Dockerfile package.json package-lock.json index.mjs .dockerignore | ssh hermes-vps 'set -e; mkdir -p /opt/draw/server /opt/draw/data && tar -C /opt/draw/server -xzf - && docker build -q -t draw-server:latest /opt/draw/server >/dev/null && (docker rm -f draw-server >/dev/null 2>&1 || true) && docker run -d --name draw-server --restart unless-stopped --network dokploy-network --env-file /opt/draw/server.env -v /opt/draw/data:/data draw-server:latest >/dev/null'
+  tar -C server -czf - Dockerfile package.json package-lock.json index.mjs auth.mjs .dockerignore | ssh hermes-vps 'set -e; mkdir -p /opt/draw/server /opt/draw/data && tar -C /opt/draw/server -xzf - && docker build -q -t draw-server:latest /opt/draw/server >/dev/null && (docker rm -f draw-server >/dev/null 2>&1 || true) && docker run -d --name draw-server --restart unless-stopped --network dokploy-network --env-file /opt/draw/server.env -v /opt/draw/data:/data draw-server:latest >/dev/null'
   echo "Servidor publicado."
 fi
 

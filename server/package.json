@@ -2,8 +2,11 @@
   "name": "awordz-draw-server",
   "private": true,
   "type": "module",
-  "scripts": { "start": "node index.mjs" },
+  "scripts": {
+    "start": "node index.mjs"
+  },
   "dependencies": {
+    "better-auth": "^1.7.28",
     "express": "^4.21.2",
     "socket.io": "^4.8.1"
   }

@@ -17,9 +17,9 @@ import {
   getCurrentRoom,
   getMe,
   listDrawings,
-  logout,
   openDrawing,
   renameDrawing,
+  signOut,
 } from "./api";
 
 import type { Drawing } from "./api";
@@ -131,7 +131,7 @@ export const DrawingsPanel = () => {
   };
 
   const onLogout = async () => {
-    await logout().catch(() => {});
+    await signOut().catch(() => {});
     window.location.assign("/");
   };
 
