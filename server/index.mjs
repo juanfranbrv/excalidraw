@@ -59,6 +59,20 @@ db.exec(`
     created_by TEXT NOT NULL,
     created_at INTEGER NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS comments (
+    id TEXT PRIMARY KEY,
+    drawing_id TEXT NOT NULL,
+    parent_id TEXT,               -- null: comentario principal (hilo); si no, respuesta
+    x REAL,                       -- posición en el lienzo (solo el principal)
+    y REAL,
+    text TEXT NOT NULL,
+    author_id TEXT NOT NULL,      -- id de usuario de Better Auth
+    author_name TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    resolved_at INTEGER,
+    resolved_by TEXT
+  );
+  CREATE INDEX IF NOT EXISTS comments_drawing ON comments (drawing_id);
 `);
 
 const q = {
@@ -89,6 +103,25 @@ const q = {
     "INSERT OR REPLACE INTO files (path, data, created_at) VALUES (?, ?, ?)",
   ),
   deleteRoomFiles: db.prepare("DELETE FROM files WHERE path LIKE ?"),
+  listComments: db.prepare(
+    "SELECT id, parent_id AS parentId, x, y, text, author_id AS authorId, author_name AS authorName, created_at AS createdAt, resolved_at AS resolvedAt, resolved_by AS resolvedBy FROM comments WHERE drawing_id = ? ORDER BY created_at",
+  ),
+  getComment: db.prepare(
+    "SELECT id, drawing_id AS drawingId, parent_id AS parentId, author_id AS authorId FROM comments WHERE id = ?",
+  ),
+  insertComment: db.prepare(
+    "INSERT INTO comments (id, drawing_id, parent_id, x, y, text, author_id, author_name, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  ),
+  resolveComment: db.prepare(
+    "UPDATE comments SET resolved_at = ?, resolved_by = ? WHERE id = ?",
+  ),
+  moveComment: db.prepare("UPDATE comments SET x = ?, y = ? WHERE id = ?"),
+  deleteComment: db.prepare(
+    "DELETE FROM comments WHERE id = ? OR parent_id = ?",
+  ),
+  deleteDrawingComments: db.prepare(
+    "DELETE FROM comments WHERE drawing_id = ?",
+  ),
   getShareLink: db.prepare("SELECT data FROM share_links WHERE id = ?"),
   putShareLink: db.prepare(
     "INSERT INTO share_links (id, data, created_by, created_at) VALUES (?, ?, ?, ?)",
@@ -128,7 +161,7 @@ const isValidPath = (p) =>
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
 app.get("/api/me", requireAuth, (req, res) =>
-  res.json({ name: req.user.name, email: req.user.email }),
+  res.json({ id: req.user.id, name: req.user.name, email: req.user.email }),
 );
 
 // Dibujos guardados (la lista del equipo).
@@ -180,6 +213,97 @@ app.delete("/api/drawings/:id", requireAuth, (req, res) => {
   q.deleteDrawing.run(id);
   q.deleteScene.run(id);
   q.deleteRoomFiles.run(`files/rooms/${id}/%`);
+  q.deleteDrawingComments.run(id);
+  res.json({ ok: true });
+});
+
+// Comentarios de un dibujo guardado. Hilos con posición en el lienzo y respuestas.
+app.get("/api/drawings/:id/comments", requireAuth, (req, res) => {
+  res.json(q.listComments.all(req.params.id));
+});
+
+app.post(
+  "/api/drawings/:id/comments",
+  requireAuth,
+  express.json(),
+  (req, res) => {
+    const drawingId = req.params.id;
+    if (!q.getDrawing.get(drawingId)) {
+      return res.status(404).json({ error: "no-drawing" });
+    }
+    const text = String(req.body?.text || "")
+      .trim()
+      .slice(0, 4000);
+    if (!text) {
+      return res.status(400).json({ error: "no-text" });
+    }
+    const parentId = req.body?.parentId || null;
+    let x = null;
+    let y = null;
+    if (parentId) {
+      const parent = q.getComment.get(parentId);
+      if (!parent || parent.drawingId !== drawingId || parent.parentId) {
+        return res.status(400).json({ error: "bad-parent" });
+      }
+    } else {
+      x = Number(req.body?.x);
+      y = Number(req.body?.y);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) {
+        return res.status(400).json({ error: "no-position" });
+      }
+    }
+    const id = crypto.randomBytes(9).toString("base64url");
+    q.insertComment.run(
+      id,
+      drawingId,
+      parentId,
+      x,
+      y,
+      text,
+      req.user.id,
+      req.user.name,
+      Date.now(),
+    );
+    res.status(201).json({ id });
+  },
+);
+
+app.patch(
+  "/api/comments/:commentId",
+  requireAuth,
+  express.json(),
+  (req, res) => {
+    const comment = q.getComment.get(req.params.commentId);
+    if (!comment) {
+      return res.status(404).json({ error: "not-found" });
+    }
+    if (typeof req.body?.resolved === "boolean" && !comment.parentId) {
+      q.resolveComment.run(
+        req.body.resolved ? Date.now() : null,
+        req.body.resolved ? req.user.name : null,
+        comment.id,
+      );
+    }
+    if (
+      !comment.parentId &&
+      Number.isFinite(req.body?.x) &&
+      Number.isFinite(req.body?.y)
+    ) {
+      q.moveComment.run(req.body.x, req.body.y, comment.id);
+    }
+    res.json({ ok: true });
+  },
+);
+
+app.delete("/api/comments/:commentId", requireAuth, (req, res) => {
+  const comment = q.getComment.get(req.params.commentId);
+  if (!comment) {
+    return res.status(404).json({ error: "not-found" });
+  }
+  if (comment.authorId !== req.user.id) {
+    return res.status(403).json({ error: "not-author" });
+  }
+  q.deleteComment.run(comment.id, comment.id);
   res.json({ ok: true });
 });
 

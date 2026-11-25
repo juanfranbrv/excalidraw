@@ -1,7 +1,11 @@
 import { DefaultSidebar, Sidebar } from "@excalidraw/excalidraw";
-import { LoadIcon } from "@excalidraw/excalidraw/components/icons";
+import {
+  LoadIcon,
+  messageCircleIcon,
+} from "@excalidraw/excalidraw/components/icons";
 import { useUIAppState } from "@excalidraw/excalidraw/context/ui-appState";
 
+import { CommentsPanel } from "../awordz/CommentsPanel";
 import { DrawingsPanel } from "../awordz/DrawingsPanel";
 
 // Barra lateral: biblioteca y búsqueda (de Excalidraw) y la pestaña "Dibujos" del equipo.
@@ -18,9 +22,19 @@ export const AppSidebar = () => {
         >
           {LoadIcon}
         </Sidebar.TabTrigger>
+        <Sidebar.TabTrigger
+          tab="comments"
+          title="Comentarios"
+          style={{ opacity: openSidebar?.tab === "comments" ? 1 : 0.4 }}
+        >
+          {messageCircleIcon}
+        </Sidebar.TabTrigger>
       </DefaultSidebar.TabTriggers>
       <Sidebar.Tab tab="drawings">
         <DrawingsPanel />
+      </Sidebar.Tab>
+      <Sidebar.Tab tab="comments">
+        <CommentsPanel />
       </Sidebar.Tab>
     </DefaultSidebar>
   );

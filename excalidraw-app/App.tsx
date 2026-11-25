@@ -142,6 +142,7 @@ import "./index.scss";
 
 import { AppSidebar } from "./components/AppSidebar";
 import { AuthGate } from "./awordz/AuthGate";
+import { CommentsLayer } from "./awordz/CommentsLayer";
 
 import type { CollabAPI } from "./collab/Collab";
 
@@ -1196,6 +1197,7 @@ const ExcalidrawWrapper = () => {
           />
         )}
       </Excalidraw>
+      <CommentsLayer />
     </div>
   );
 };
