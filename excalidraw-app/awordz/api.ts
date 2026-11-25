@@ -57,11 +57,16 @@ const authPost = async (path: string, body: object) => {
   return json;
 };
 
-export const signIn = (email: string, password: string) =>
-  authPost("/sign-in/email", { email, password, rememberMe: true });
-
-export const signUp = (name: string, email: string, password: string) =>
-  authPost("/sign-up/email", { name, email, password });
+// Empieza el login con Google: el servidor devuelve la URL de Google y vamos allí.
+// Al volver, Better Auth deja la sesión y redirige a "/". Si falla, a "/?login_error=...".
+export const signInWithGoogle = async () => {
+  const { url } = await authPost("/sign-in/social", {
+    provider: "google",
+    callbackURL: "/",
+    errorCallbackURL: "/?login_error=1",
+  });
+  window.location.assign(url);
+};
 
 export const signOut = () => authPost("/sign-out", {});
 

@@ -19,7 +19,12 @@ import { createAuth } from "./auth.mjs";
 const PORT = Number(process.env.PORT || 3015);
 const DATA_DIR = process.env.DATA_DIR || "./data";
 
-for (const name of ["BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]) {
+for (const name of [
+  "BETTER_AUTH_SECRET",
+  "BETTER_AUTH_URL",
+  "GOOGLE_CLIENT_ID",
+  "GOOGLE_CLIENT_SECRET",
+]) {
   if (!process.env[name]) {
     console.error(`Falta ${name} en el entorno.`);
     process.exit(1);

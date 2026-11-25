@@ -1,5 +1,6 @@
-// Cuentas de usuario con Better Auth (email y contraseña).
-// Solo pueden crear cuenta los emails permitidos:
+// Cuentas de usuario con Better Auth. Solo se entra con Google.
+// Necesita GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET (cliente OAuth de Google Cloud).
+// Solo pueden entrar los emails permitidos:
 //   ALLOWED_DOMAINS: dominios enteros, separados por comas (p. ej. "awordz.com").
 //   ALLOWED_EMAILS:  emails sueltos, separados por comas.
 // Las cuentas se guardan en DATA_DIR/auth.sqlite.
@@ -34,10 +35,17 @@ export const createAuth = async (dataDir) => {
     secret: process.env.BETTER_AUTH_SECRET,
     basePath: "/api/auth",
     database: new DatabaseSync(path.join(dataDir, "auth.sqlite")),
-    emailAndPassword: {
-      enabled: true,
-      minPasswordLength: 8,
-      autoSignIn: true,
+    socialProviders: {
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        prompt: "select_account",
+      },
+    },
+    account: {
+      // Si ya existía una cuenta con ese email, Google se une a ella
+      // (así se conservan el autor de los comentarios y el resto de datos).
+      accountLinking: { enabled: true, trustedProviders: ["google"] },
     },
     session: {
       expiresIn: 60 * 60 * 24 * 90, // 90 días

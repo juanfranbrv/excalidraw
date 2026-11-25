@@ -197,7 +197,8 @@ export const CommentsPanel = () => {
 
       {threads.length === 0 && !draft && (
         <p className="awordz-comments__empty">
-          No hay comentarios abiertos. Pulsa «+ Comentar» y haz clic en el dibujo.
+          No hay comentarios abiertos. Pulsa «+ Comentar» y haz clic en el
+          dibujo.
         </p>
       )}
 
