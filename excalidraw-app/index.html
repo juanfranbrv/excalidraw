@@ -1,60 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Excalidraw Whiteboard</title>
+    <title>Awordz Draw</title>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
     />
     <meta name="referrer" content="origin" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#121212" />
+    <meta name="theme-color" content="#14624F" />
 
     <!-- Primary Meta Tags -->
-    <meta
-      name="title"
-      content="Free, collaborative whiteboard • Hand-drawn look & feel | Excalidraw"
-    />
+    <meta name="title" content="Awordz Draw" />
     <meta
       name="description"
-      content="Excalidraw is a virtual collaborative whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them."
+      content="Pizarra colaborativa del equipo de Awordz, con dibujos a mano alzada."
     />
-    <meta name="image" content="https://excalidraw.com/og-image-3.png" />
+    <meta name="image" content="https://draw.awordz.com/compartir-1200x630.png" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:site_name" content="Excalidraw" />
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Awordz Draw" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://excalidraw.com" />
-    <meta
-      property="og:title"
-      content="Excalidraw — Collaborative whiteboarding made easy"
-    />
-    <meta property="og:image:alt" content="Excalidraw logo" />
+    <meta property="og:url" content="https://draw.awordz.com" />
+    <meta property="og:title" content="Awordz Draw" />
+    <meta property="og:image:alt" content="Logo de Awordz Draw" />
     <meta
       property="og:description"
-      content="Excalidraw is a virtual collaborative whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them."
+      content="Pizarra colaborativa del equipo de Awordz, con dibujos a mano alzada."
     />
-    <meta property="og:image" content="https://excalidraw.com/og-image-3.png" />
+    <meta property="og:image" content="https://draw.awordz.com/compartir-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:site" content="@excalidraw" />
-    <meta property="twitter:url" content="https://excalidraw.com" />
-    <meta
-      property="twitter:title"
-      content="Excalidraw — Collaborative whiteboarding made easy"
-    />
+    <meta property="twitter:url" content="https://draw.awordz.com" />
+    <meta property="twitter:title" content="Awordz Draw" />
     <meta
       property="twitter:description"
-      content="Excalidraw is a virtual collaborative whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them."
+      content="Pizarra colaborativa del equipo de Awordz, con dibujos a mano alzada."
     />
     <meta
       property="twitter:image"
-      content="https://excalidraw.com/og-image-3.png"
+      content="https://draw.awordz.com/compartir-1200x630.png"
     />
 
-    <link rel="canonical" href="https://excalidraw.com" />
+    <link rel="canonical" href="https://draw.awordz.com" />
 
     <!------------------------------------------------------------------------->
     <!--   to minimize white flash on load when user has dark mode enabled   -->
@@ -98,25 +90,6 @@
 
     <!------------------------------------------------------------------------->
     <% if (typeof PROD != 'undefined' && PROD == true) { %>
-    <script>
-      // Redirect Excalidraw+ users which have auto-redirect enabled.
-      //
-      // Redirect only the bare root path, so link/room/library urls are not
-      // redirected.
-      //
-      // Putting into index.html for best performance (can't redirect on server
-      // due to location.hash checks).
-      if (
-        window.location.pathname === "/" &&
-        !window.location.hash &&
-        !window.location.search &&
-        // if its present redirect
-        document.cookie.includes("excplus-autoredirect=true")
-      ) {
-        window.location.href = "https://app.excalidraw.com";
-      }
-    </script>
-
     <!-- Following placeholder is replaced during the build step -->
     <!-- PLACEHOLDER:EXCALIDRAW_APP_FONTS -->
 
@@ -133,9 +106,9 @@
     </script>
     <% } %>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Excalidraw version -->
     <meta name="version" content="{version}" />
@@ -210,7 +183,7 @@
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <header>
-      <h1 class="visually-hidden">Excalidraw</h1>
+      <h1 class="visually-hidden">Awordz Draw</h1>
     </header>
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>

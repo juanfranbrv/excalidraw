@@ -156,3 +156,11 @@
     --plus-banner-subtitle: #8f8cc4;
   }
 }
+
+// Marca Awordz Draw: color del nombre en la pantalla de bienvenida.
+.awordz-logo-text {
+  color: #14624f;
+}
+.excalidraw.theme--dark .awordz-logo-text {
+  color: #5fbf9f;
+}

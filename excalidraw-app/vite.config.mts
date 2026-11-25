@@ -407,14 +407,19 @@ export default defineConfig(({ mode }) => {
           maximumFileSizeToCacheInBytes: 2.3 * 1024 ** 2, // 2.3MB
         },
         manifest: {
-          short_name: "Excalidraw",
-          name: "Excalidraw",
+          short_name: "Awordz Draw",
+          name: "Awordz Draw",
           description:
-            "Excalidraw is a whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
+            "Pizarra colaborativa del equipo de Awordz.",
           icons: [
             {
               src: "android-chrome-192x192.png",
               sizes: "192x192",
+              type: "image/png",
+            },
+            {
+              src: "android-chrome-512x512.png",
+              sizes: "512x512",
               type: "image/png",
             },
             {
@@ -436,7 +441,7 @@ export default defineConfig(({ mode }) => {
           start_url: "/",
           id: "excalidraw",
           display: "standalone",
-          theme_color: "#121212",
+          theme_color: "#14624F",
           background_color: "#ffffff",
           file_handlers: [
             {
