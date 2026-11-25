@@ -12,7 +12,10 @@ const AwordzLogo = () => (
       height={72}
       style={{ display: "block" }}
     />
-    <span className="awordz-logo-text" style={{ fontSize: "3rem", lineHeight: 1 }}>
+    <span
+      className="awordz-logo-text"
+      style={{ fontSize: "3rem", lineHeight: 1 }}
+    >
       Awordz Draw
     </span>
   </div>
@@ -36,11 +39,10 @@ export const AppWelcomeScreen: React.FC<{
           <AwordzLogo />
         </WelcomeScreen.Center.Logo>
         <WelcomeScreen.Center.Heading>
-          {t("welcomeScreen.app.center_heading")}
+          Los dibujos del equipo están en el menú → «Dibujos del equipo».
           <br />
-          {t("welcomeScreen.app.center_heading_line2")}
-          <br />
-          {t("welcomeScreen.app.center_heading_line3")}
+          Lo que dibujes fuera de un dibujo guardado se queda solo en este
+          navegador.
         </WelcomeScreen.Center.Heading>
         <WelcomeScreen.Center.Menu>
           <WelcomeScreen.Center.MenuItemLoadScene />

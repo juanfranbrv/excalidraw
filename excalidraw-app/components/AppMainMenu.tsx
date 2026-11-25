@@ -1,4 +1,5 @@
-import { eyeIcon } from "@excalidraw/excalidraw/components/icons";
+import { eyeIcon, LoadIcon } from "@excalidraw/excalidraw/components/icons";
+import { useExcalidrawAPI } from "@excalidraw/excalidraw";
 import { MainMenu } from "@excalidraw/excalidraw/index";
 import React from "react";
 
@@ -17,8 +18,17 @@ export const AppMainMenu: React.FC<{
   theme: Theme | "system";
   refresh: () => void;
 }> = React.memo((props) => {
+  const excalidrawAPI = useExcalidrawAPI();
   return (
     <MainMenu>
+      <MainMenu.Item
+        icon={LoadIcon}
+        onSelect={() =>
+          excalidrawAPI?.toggleSidebar({ name: "default", tab: "drawings" })
+        }
+      >
+        Dibujos del equipo
+      </MainMenu.Item>
       <MainMenu.DefaultItems.LoadScene />
       <MainMenu.DefaultItems.SaveToActiveFile />
       <MainMenu.DefaultItems.Export />

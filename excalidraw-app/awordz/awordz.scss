@@ -1,0 +1,194 @@
+// Estilos de las piezas propias de Awordz Draw.
+
+$green: #14624f;
+
+.awordz-login {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f6f4;
+  font-family: Assistant, system-ui, sans-serif;
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    width: min(340px, calc(100vw - 32px));
+    padding: 2rem 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+
+    h1 {
+      margin: 0 0 0.5rem;
+      color: $green;
+      font-size: 1.6rem;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      width: 100%;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    input {
+      padding: 0.6rem 0.7rem;
+      font-size: 1rem;
+      border: 1px solid #ccd3cf;
+      border-radius: 8px;
+
+      &:focus {
+        outline: 2px solid $green;
+        border-color: transparent;
+      }
+    }
+
+    button {
+      width: 100%;
+      margin-top: 0.4rem;
+      padding: 0.7rem;
+      font-size: 1rem;
+      color: #fff;
+      background: $green;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  &__error {
+    margin: 0;
+    color: #b42318;
+    font-size: 0.9rem;
+  }
+}
+
+.excalidraw .awordz-drawings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      flex: 1;
+      padding: 0.5rem;
+      color: #fff;
+      background: $green;
+      border: 0;
+      border-radius: 6px;
+    }
+  }
+
+  &__list {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      border-radius: 6px;
+
+      &:hover {
+        background: var(--button-hover-bg, rgba(0, 0, 0, 0.05));
+      }
+
+      &.is-current {
+        box-shadow: inset 3px 0 0 $green;
+        background: var(--button-hover-bg, rgba(0, 0, 0, 0.05));
+      }
+    }
+  }
+
+  &__open {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 0.5rem 0.6rem;
+    color: var(--text-primary-color);
+    text-align: left;
+    background: none;
+    border: 0;
+  }
+
+  &__title {
+    max-width: 100%;
+    overflow: hidden;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__meta {
+    font-size: 0.75rem;
+    opacity: 0.65;
+  }
+
+  &__icon {
+    padding: 0.3rem 0.4rem;
+    color: var(--text-primary-color);
+    background: none;
+    border: 0;
+    border-radius: 4px;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__empty,
+  &__error {
+    margin: 0;
+    opacity: 0.7;
+  }
+
+  &__error {
+    color: #b42318;
+    opacity: 1;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    font-size: 0.8rem;
+    border-top: 1px solid var(--default-border-color, #ddd);
+
+    button {
+      padding: 0.25rem 0.6rem;
+      color: var(--text-primary-color);
+      background: none;
+      border: 1px solid var(--default-border-color, #ccc);
+      border-radius: 6px;
+    }
+  }
+}

@@ -141,6 +141,7 @@ import { ExcalidrawPlusIframeExport } from "./ExcalidrawPlusIframeExport";
 import "./index.scss";
 
 import { AppSidebar } from "./components/AppSidebar";
+import { AuthGate } from "./awordz/AuthGate";
 
 import type { CollabAPI } from "./collab/Collab";
 
@@ -1208,11 +1209,13 @@ const ExcalidrawApp = () => {
 
   return (
     <TopErrorBoundary>
-      <Provider store={appJotaiStore}>
-        <ExcalidrawAPIProvider>
-          <ExcalidrawWrapper />
-        </ExcalidrawAPIProvider>
-      </Provider>
+      <AuthGate>
+        <Provider store={appJotaiStore}>
+          <ExcalidrawAPIProvider>
+            <ExcalidrawWrapper />
+          </ExcalidrawAPIProvider>
+        </Provider>
+      </AuthGate>
     </TopErrorBoundary>
   );
 };

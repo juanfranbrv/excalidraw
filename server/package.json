@@ -1,0 +1,10 @@
+{
+  "name": "awordz-draw-server",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node index.mjs" },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}

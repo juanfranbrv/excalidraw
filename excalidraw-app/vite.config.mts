@@ -147,6 +147,11 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       port: Number(envVars.VITE_APP_PORT || 3000),
+      // Awordz Draw: en desarrollo, /api y /socket.io van al servidor propio (server/).
+      proxy: {
+        "/api": "http://localhost:3015",
+        "/socket.io": { target: "http://localhost:3015", ws: true },
+      },
       // open the browser
       open: true,
     },
